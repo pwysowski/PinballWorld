@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Input;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using Zenject;
 
 public enum FlipperType
 {
@@ -13,23 +16,58 @@ public class FlipperController : MonoBehaviour
     [SerializeField]
     private FlipperType type;
 
-    [SerializeField]
-    private float speedUp = 1000;
-
-    [SerializeField]
-    private float speedDown = 600;
+    private float speed = 1000;
 
     [SerializeField]
     private HingeJoint2D hingeJoint;
     private JointMotor2D jointMotor;
+    private IInputService _input;
+
+    [Inject]
+    public void Init(IInputService inputService)
+    {
+        _input = inputService;
+    }
     private void OnEnable()
     {
         jointMotor = hingeJoint.motor;
+        SetInitSpeed();
+        SubscribeToEvent();
     }
 
-    private void Paddle_Performed(InputAction.CallbackContext obj)
+    private void SetInitSpeed()
     {
-        jointMotor.motorSpeed = speedDown;
+        var finalSpeed = type == FlipperType.LEFT ? speed : -speed;
+        jointMotor.motorSpeed = finalSpeed;
         hingeJoint.motor = jointMotor;
     }
+
+    private void SubscribeToEvent()
+    {
+        if(type == FlipperType.LEFT)
+        {
+            _input.OnPaddleLeftUp += PaddleDown;
+            _input.OnPaddleLeftDown += PaddleUp;
+        }
+        else
+        {
+            _input.OnPaddleRightUp += PaddleDown;
+            _input.OnPaddleRightDown += PaddleUp;
+        }
+    }
+
+    private void PaddleUp()
+    {
+        var finalSpeed = type == FlipperType.LEFT ? -speed : speed;
+        jointMotor.motorSpeed = finalSpeed;
+        hingeJoint.motor = jointMotor;
+    }
+
+    private void PaddleDown()
+    {
+        var finalSpeed = type == FlipperType.LEFT ? speed : -speed;
+        jointMotor.motorSpeed = finalSpeed;
+        hingeJoint.motor = jointMotor;
+    }
+
 }

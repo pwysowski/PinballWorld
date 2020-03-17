@@ -7,9 +7,9 @@
             "actions": [
                 {
                     "name": "Paddle",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "94e7d18e-407c-4477-b8bc-223388980eb1",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -18,7 +18,7 @@
                 {
                     "name": "",
                     "id": "65cbf248-201b-492b-bb64-bc751de8e41d",
-                    "path": "<Touchscreen>/primaryTouch/position",
+                    "path": "<Touchscreen>/touch0/position",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "Touch",
@@ -28,11 +28,11 @@
                 },
                 {
                     "name": "",
-                    "id": "4e3f13c1-1842-455b-8130-fd77321b110f",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Hold",
+                    "id": "3e8a8f65-b78a-4f4e-a31a-c78bc4306fd5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "",
                     "action": "Paddle",
                     "isComposite": false,
                     "isPartOfComposite": false

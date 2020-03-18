@@ -9,3 +9,4 @@ https://gitlab.com/ii-us/tgnpp/academic-book/-/blob/master/tgnpp_academic_book.p
 - Added panning
 - Added zoom in and zoom out
 - Added paddle tap controls
+- Added nudging

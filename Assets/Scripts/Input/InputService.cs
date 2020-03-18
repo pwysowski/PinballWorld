@@ -16,10 +16,13 @@ namespace Assets.Scripts.Input
         public Action OnPaddleRightUp { get; set; }
         public Action<float> Zoom { get; set; }
         public Action<Vector3> Pan { get; set; }
+        public Action OnNudge { get; set; }
+
         private Vector3 touchStart;
         private float screen_w;
         private float screen_h;
         public Text text;
+
         private void Awake()
         {
             screen_w = Screen.width;
@@ -73,8 +76,18 @@ namespace Assets.Scripts.Input
             {
                 OnPaddleRightUp?.Invoke();
             }
+
+
+            if (UnityEngine.Input.GetKey(KeyCode.Space))
+            {
+                OnNudge?.Invoke();
+            }
 #endif
 
+            if (UnityEngine.Input.acceleration.sqrMagnitude > 3)
+            {
+                OnNudge?.Invoke();
+            }
 
             for (int i = 0; i < UnityEngine.Input.touchCount; i++)
             {

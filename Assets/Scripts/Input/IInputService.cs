@@ -15,6 +15,7 @@ namespace Assets.Scripts.Input
         Action OnPaddleRightUp { get; set; }
         Action<float> Zoom { get; set; }
         Action<Vector3> Pan { get; set; }
+        Action OnNudge { get; set; }
 
     }
 }

@@ -55,6 +55,27 @@ namespace Assets.Scripts.Input
 
         private void Update()
         {
+#if UNITY_EDITOR
+            if (UnityEngine.Input.GetKeyDown(KeyCode.A))
+            {
+                OnPaddleLeftDown?.Invoke();
+            }
+            if (UnityEngine.Input.GetKeyUp(KeyCode.A))
+            {
+                OnPaddleLeftUp?.Invoke();
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.D))
+            {
+                OnPaddleRightDown?.Invoke();
+            }
+            if (UnityEngine.Input.GetKeyUp(KeyCode.D))
+            {
+                OnPaddleRightUp?.Invoke();
+            }
+#endif
+
+
             for (int i = 0; i < UnityEngine.Input.touchCount; i++)
             {
                 Touch touch = UnityEngine.Input.GetTouch(i);

@@ -16,7 +16,7 @@ public class FlipperController : MonoBehaviour
     [SerializeField]
     private FlipperType type;
 
-    private float speed = 1000;
+    private float speed = 4000;
 
     [SerializeField]
     private HingeJoint2D hingeJoint;

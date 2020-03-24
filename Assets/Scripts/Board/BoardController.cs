@@ -21,34 +21,79 @@ namespace Assets.Scripts.Board
         [SerializeField]
         private GameObject ball;
 
+        [SerializeField]
+        private List<BumperController> bumpersOnLevel;
+
         private IGameController _gameController;
         private IInputService _input;
-        private Sequence seq;
-        private bool isNudging;
+        private IPointsService _pointsService;
         private Vector3 initLevelPosition;
+        private bool isNudging;
 
         [Inject]
-        public void Init(IGameController gameController, IInputService input)
+        public void Init(IGameController gameController, IInputService input, IPointsService pointsService)
         {
             _gameController = gameController;
             _input = input;
-
+            _pointsService = pointsService;
             initLevelPosition = levelParentTransform.position;
-        }
-
-        public void EndGame()
-        {
-            DisableNudge();
-            _gameController.ChangeGameState(GameState.PRE_GAME);
-            ball.SetActive(false);
-            Invoke("StartGame", 5f); // Debug only
         }
         public void StartGame()
         {
             _gameController.ChangeGameState(GameState.IN_GAME);
 
             EnableNudge();
+            EnableBall();
+            InitializeBumpers();
+        }
 
+        private void InitializeBumpers()
+        {
+            foreach(BumperController bumper in bumpersOnLevel)
+            {
+                if (bumper.Active)
+                {
+                    bumper.OnBump += BumperPointHandle;
+                }
+            }
+        }
+
+        private void BumperPointHandle(float value)
+        {
+            _pointsService.AddPoints(value);
+        }
+
+        public void EndGame()
+        {
+            DisableNudge();
+            DisableBall();
+            DisableBumpers();
+
+            var reward = _pointsService.CalculateReward();
+            _gameController.Money += (int)reward;
+            _gameController.ChangeGameState(GameState.PRE_GAME);
+
+            _pointsService.ResetPoints();
+
+            Invoke("StartGame", 5f); // Debug only
+        }
+
+        private void DisableBumpers()
+        {
+            foreach(var bumper in bumpersOnLevel)
+            {
+                bumper.OnBump -= BumperPointHandle;
+            }
+        }
+
+        private void DisableBall()
+        {
+            ball.SetActive(false);
+        }
+
+
+        private void EnableBall()
+        {
             ball.transform.position = ballSpawnPoint.position;
             ball.SetActive(true);
         }

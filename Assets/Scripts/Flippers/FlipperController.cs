@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Input;
+﻿using Assets.Scripts;
+using Assets.Scripts.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,17 +23,38 @@ public class FlipperController : MonoBehaviour
     private HingeJoint2D hingeJoint;
     private JointMotor2D jointMotor;
     private IInputService _input;
+    private IGameController _gameController;
 
     [Inject]
-    public void Init(IInputService inputService)
+    public void Init(IInputService inputService, IGameController gameController)
     {
         _input = inputService;
+        _gameController = gameController;
     }
     private void OnEnable()
     {
         jointMotor = hingeJoint.motor;
         SetInitSpeed();
-        SubscribeToEvent();
+
+        _gameController.OnGameStateChange += ChangeStateHandle;
+
+    }
+
+    private void OnDisable()
+    {
+        _gameController.OnGameStateChange -= ChangeStateHandle;
+    }
+
+    private void ChangeStateHandle(GameState obj)
+    {
+        if(obj == GameState.PRE_GAME || obj == GameState.MENU)
+        {
+            UnsubscribeFromEvent();
+        }
+        else
+        {
+            SubscribeToEvent();
+        }
     }
 
     private void SetInitSpeed()
@@ -53,6 +75,20 @@ public class FlipperController : MonoBehaviour
         {
             _input.OnPaddleRightUp += PaddleDown;
             _input.OnPaddleRightDown += PaddleUp;
+        }
+    }
+
+    private void UnsubscribeFromEvent()
+    {
+        if (type == FlipperType.LEFT)
+        {
+            _input.OnPaddleLeftUp -= PaddleDown;
+            _input.OnPaddleLeftDown -= PaddleUp;
+        }
+        else
+        {
+            _input.OnPaddleRightUp -= PaddleDown;
+            _input.OnPaddleRightDown -= PaddleUp;
         }
     }
 

@@ -12,5 +12,6 @@ public class ZenInstaller : MonoInstaller
         Container.Bind<IInputService>().To<InputService>().FromComponentInHierarchy().AsSingle();
         Container.Bind<IBoardController>().To<BoardController>().FromComponentInHierarchy().AsSingle();
         Container.Bind<IGameController>().To<GameController>().AsSingle();
+        Container.Bind<IPointsService>().To<PointsService>().AsSingle();
     }
 }

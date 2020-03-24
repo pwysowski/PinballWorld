@@ -17,6 +17,8 @@ namespace Assets.Scripts.Input
         public Action<float> Zoom { get; set; }
         public Action<Vector3> Pan { get; set; }
         public Action OnNudge { get; set; }
+        public Action<Vector3> ShootPlunger { get; set; }
+        public Action<Vector3> StartPlunger { get; set; }
 
         private Vector3 touchStart;
         private float screen_w;

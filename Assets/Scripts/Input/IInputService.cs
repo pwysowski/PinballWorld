@@ -16,6 +16,7 @@ namespace Assets.Scripts.Input
         Action<float> Zoom { get; set; }
         Action<Vector3> Pan { get; set; }
         Action OnNudge { get; set; }
-
+        Action<Vector3> ShootPlunger { get; set; }
+        Action<Vector3> StartPlunger { get; set; }
     }
 }

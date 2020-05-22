@@ -23,11 +23,24 @@ namespace Assets.Scripts.Input
         private Vector3 touchStart;
         private float screen_w;
         private float screen_h;
+
+        private static float PLUNGER_MAX_X;
+        private static float PLUNGER_MIN_X;
+        private static float PLUNGER_MAX_Y;
+        private static float PLUNGER_MIN_Y;
         public Text text;
 
         private void Awake()
         {
             screen_w = Screen.width;
+            InitPlungerArea();
+        }
+
+        private void InitPlungerArea(){
+            PLUNGER_MAX_X = screen_w;
+            PLUNGER_MIN_X = screen_w / 2;
+            PLUNGER_MAX_Y = screen_h / 2;
+            PLUNGER_MIN_Y = 0;
         }
 
         public void OnPaddleUp(Vector2 inputValue)
@@ -61,6 +74,58 @@ namespace Assets.Scripts.Input
         private void Update()
         {
 #if UNITY_EDITOR
+            DebugInput();
+#endif
+
+            if (UnityEngine.Input.acceleration.sqrMagnitude > 3)
+            {
+                OnNudge?.Invoke();
+            }
+
+            for (int i = 0; i < UnityEngine.Input.touchCount; i++)
+            {
+                Touch touch = UnityEngine.Input.GetTouch(i);
+
+                if(touch.phase == TouchPhase.Began){
+                    OnPaddleUp(touch.position);
+                }
+                else if(touch.phase == TouchPhase.Ended){
+                    OnPaddleDown(touch.position);
+                }
+            }
+
+            CameraInput();
+            PlungerInput();
+            if (UnityEngine.Input.GetMouseButtonDown(0))
+            {
+                touchStart = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+            }
+
+            if (UnityEngine.Input.GetMouseButton(0))
+            {
+                Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                Pan?.Invoke(direction);
+            }
+
+        }
+
+        private void CameraInput(){
+            if (UnityEngine.Input.touchCount == 2)
+            {
+                Touch touch1 = UnityEngine.Input.GetTouch(0);
+                Touch touch2 = UnityEngine.Input.GetTouch(1);
+
+                Vector2 t1Prev = touch1.position - touch1.deltaPosition;
+                Vector2 t2Prev = touch2.position - touch2.deltaPosition;
+                float prevMag = (t1Prev - t2Prev).magnitude;
+                float current = (touch1.position - touch2.position).magnitude;
+
+                float diff = current - prevMag;
+                Zoom?.Invoke(diff);
+            }
+        }
+
+        private void DebugInput(){
             if (UnityEngine.Input.GetKeyDown(KeyCode.A))
             {
                 OnPaddleLeftDown?.Invoke();
@@ -80,52 +145,37 @@ namespace Assets.Scripts.Input
             }
 
 
-            if (UnityEngine.Input.GetKey(KeyCode.Space))
-            {
-                OnNudge?.Invoke();
-            }
-#endif
+            // if (UnityEngine.Input.GetKey(KeyCode.Space))
+            // {
+            //     OnNudge?.Invoke();
+            // }
 
-            if (UnityEngine.Input.acceleration.sqrMagnitude > 3)
-            {
-                OnNudge?.Invoke();
+            if(UnityEngine.Input.GetKeyDown(KeyCode.Space)){
+                StartPlunger?.Invoke(new Vector3(0, 1, 0));
             }
 
-            for (int i = 0; i < UnityEngine.Input.touchCount; i++)
-            {
-                Touch touch = UnityEngine.Input.GetTouch(i);
-
-                if(touch.phase == TouchPhase.Began)
-                    OnPaddleUp(touch.position);
-                else if(touch.phase == TouchPhase.Ended)
-                    OnPaddleDown(touch.position);
+            if(UnityEngine.Input.GetKeyUp(KeyCode.Space)){
+                ShootPlunger?.Invoke(new Vector3(0, -1, 0));
             }
+        }
 
-            if (UnityEngine.Input.touchCount == 2)
-            {
-                Touch touch1 = UnityEngine.Input.GetTouch(0);
-                Touch touch2 = UnityEngine.Input.GetTouch(1);
-
-                Vector2 t1Prev = touch1.position - touch1.deltaPosition;
-                Vector2 t2Prev = touch2.position - touch2.deltaPosition;
-                float prevMag = (t1Prev - t2Prev).magnitude;
-                float current = (touch1.position - touch2.position).magnitude;
-
-                float diff = current - prevMag;
-                Zoom?.Invoke(diff);
+        private void PlungerInput(){
+            if(UnityEngine.Input.touchCount == 1){
+                Touch touch = UnityEngine.Input.GetTouch(0);
+                if(IsTouchInPlungerArea(touch.position)){ 
+                    if(touch.phase == TouchPhase.Began){
+                        StartPlunger.Invoke(touch.position);
+                    }
+                    else if(touch.phase == TouchPhase.Ended){
+                        ShootPlunger.Invoke(touch.position);
+                    }
+                }
             }
+        }
 
-            if (UnityEngine.Input.GetMouseButtonDown(0))
-            {
-                touchStart = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-            }
-
-            if (UnityEngine.Input.GetMouseButton(0))
-            {
-                Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-                Pan?.Invoke(direction);
-            }
-
+        private bool IsTouchInPlungerArea(Vector3 position){
+            return (position.x >= PLUNGER_MIN_X && position.x <= PLUNGER_MAX_X)
+                    && (position.y <= PLUNGER_MAX_Y && position.y >= PLUNGER_MIN_Y);
         }
     }
 }

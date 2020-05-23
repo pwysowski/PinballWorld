@@ -10,6 +10,7 @@ namespace Assets.Scripts
     {
         IN_GAME,
         PRE_GAME,
+        PLUNGER_GAME,
         MENU,
     }
 }

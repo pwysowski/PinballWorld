@@ -57,6 +57,8 @@ namespace Assets.Scripts.Board
 
         public void StartGame()
         {
+            _gameController.ChangeGameState(GameState.PRE_GAME);
+
             EnableNudge();
             EnableBall();
             InitializeBumpers();

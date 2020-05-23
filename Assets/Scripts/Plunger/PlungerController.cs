@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class PlungerController : MonoBehaviour
 {
@@ -11,12 +12,17 @@ public class PlungerController : MonoBehaviour
     private IInputService _inputService;
     private Vector3 _initValue;
 
+    [SerializeField]
     private SpringJoint2D spring;
+    [SerializeField]
+    private Rigidbody2D plungerRigidbody;
 
+    [Inject]
     public void Init(IGameController gameController, IInputService inputService)
     {
         _gameController = gameController;
         _inputService = inputService;
+
     }
 
     private void OnEnable()
@@ -30,11 +36,12 @@ public class PlungerController : MonoBehaviour
 
     private void ToggleInput(GameState obj)
     {
+        Debug.Log(obj);
         if (obj == GameState.IN_GAME || obj == GameState.MENU)
         {
             DisablePlunger();
         }
-        else
+        else if(obj == GameState.PRE_GAME)
         {
             EnablePlunger();
         }
@@ -55,11 +62,14 @@ public class PlungerController : MonoBehaviour
 
     private void Shoot(Vector3 value)
     {
-        if(value.y < _initValue.y)
+        float force = 0;
+        if (value.y < _initValue.y)
         {
             var diff = _initValue - value;
-            var force = diff.sqrMagnitude;
+            force = diff.sqrMagnitude;
         }
+        plungerRigidbody.AddForce(Vector3.up * force * 1000);
+        _gameController.ChangeGameState(GameState.IN_GAME);
     }
 
     private void InitPlunger(Vector3 value)

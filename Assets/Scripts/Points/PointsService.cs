@@ -7,7 +7,6 @@ public class PointsService : IPointsService
     private float Points;
     public void AddPoints(float value)
     {
-        Debug.Log(Points);
         Points += value;
     }
 

@@ -1,7 +1,18 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 408fb1b861c3e49b2ad8c869421961a1
 folderAsset: yes
 DefaultImporter:
+=======
+<<<<<<< HEAD:Assets/Prefabs/Debug/2D_Level.prefab.meta
+guid: 87042cad292c4499badb922ec8a28121
+PrefabImporter:
+=======
+guid: 408fb1b861c3e49b2ad8c869421961a1
+folderAsset: yes
+DefaultImporter:
+>>>>>>> master:Assets/Prefabs.meta
+>>>>>>> master
   externalObjects: {}
   userData: 
   assetBundleName: 

@@ -38,6 +38,23 @@ namespace Assets.Scripts.Board
             _pointsService = pointsService;
             initLevelPosition = levelParentTransform.position;
         }
+
+        private void OnEnable() {
+            _gameController.OnGameStateChange += HandleChange;
+        }
+
+        private void OnDisable() {
+            _gameController.OnGameStateChange -= HandleChange;
+        }
+
+        private void HandleChange(GameState gameState){
+            if(gameState == GameState.PRE_GAME){
+                StartGame();
+            } else if(gameState == GameState.MENU){
+                EndGame();
+            }
+        }
+
         public void StartGame()
         {
             _gameController.ChangeGameState(GameState.PRE_GAME);
@@ -74,8 +91,6 @@ namespace Assets.Scripts.Board
             _gameController.ChangeGameState(GameState.PRE_GAME);
 
             _pointsService.ResetPoints();
-
-            Invoke("StartGame", 5f); // Debug only
         }
 
         private void DisableBumpers()

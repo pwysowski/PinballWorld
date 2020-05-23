@@ -36,11 +36,12 @@ public class PlungerController : MonoBehaviour
 
     private void ToggleInput(GameState obj)
     {
+        Debug.Log(obj);
         if (obj == GameState.IN_GAME || obj == GameState.MENU)
         {
             DisablePlunger();
         }
-        else if(obj == GameState.PLUNGER_GAME)
+        else if(obj == GameState.PRE_GAME)
         {
             EnablePlunger();
         }
@@ -68,6 +69,7 @@ public class PlungerController : MonoBehaviour
             force = diff.sqrMagnitude;
         }
         plungerRigidbody.AddForce(Vector3.up * force * 1000);
+        _gameController.ChangeGameState(GameState.IN_GAME);
     }
 
     private void InitPlunger(Vector3 value)

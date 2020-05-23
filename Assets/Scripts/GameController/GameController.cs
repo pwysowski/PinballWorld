@@ -19,7 +19,7 @@ public class GameController : IGameController
 
     public void Init()
     {
-        ChangeGameState(GameState.PRE_GAME);
+        ChangeGameState(GameState.MENU);
     }
 
     public void Exit()

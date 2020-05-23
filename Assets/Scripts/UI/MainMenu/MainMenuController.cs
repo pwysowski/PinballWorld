@@ -45,7 +45,6 @@ public class MainMenuController : MonoBehaviour
     private void StartGame()
     {
         _gameController.ChangeGameState(GameState.PRE_GAME);
-
     }
 
     private void HandleGameChange(GameState gameState){

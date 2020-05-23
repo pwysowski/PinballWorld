@@ -57,8 +57,6 @@ namespace Assets.Scripts.Board
 
         public void StartGame()
         {
-            _gameController.ChangeGameState(GameState.PRE_GAME);
-
             EnableNudge();
             EnableBall();
             InitializeBumpers();
@@ -88,9 +86,13 @@ namespace Assets.Scripts.Board
 
             var reward = _pointsService.CalculateReward();
             _gameController.Money += (int)reward;
-            _gameController.ChangeGameState(GameState.PRE_GAME);
 
             _pointsService.ResetPoints();
+        }
+
+        public void RestartGame(){
+            EndGame();
+            _gameController.ChangeGameState(GameState.PRE_GAME);
         }
 
         private void DisableBumpers()

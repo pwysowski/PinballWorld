@@ -20,7 +20,7 @@ public class ScoreAreaController : MonoBehaviour
     {
         if (collision.CompareTag(BallTag))
         {
-            _boardController.EndGame();
+            _boardController.RestartGame();
         }
     }
 }

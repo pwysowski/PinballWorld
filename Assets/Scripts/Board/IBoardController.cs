@@ -4,5 +4,6 @@
     {
         void StartGame();
         void EndGame();
+        void RestartGame();
     }
 }

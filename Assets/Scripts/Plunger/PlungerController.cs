@@ -17,12 +17,15 @@ public class PlungerController : MonoBehaviour
     [SerializeField]
     private Rigidbody2D plungerRigidbody;
 
+    public UnityEngine.UI.Text text;
+
     [Inject]
-    public void Init(IGameController gameController, IInputService inputService)
+    public void Init(IGameController gameController, IInputService inputService, IGPSController gps)
     {
         _gameController = gameController;
         _inputService = inputService;
-
+        
+        gps.InitializeGPS();
     }
 
     private void OnEnable()

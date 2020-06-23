@@ -28,7 +28,6 @@ namespace Assets.Scripts.Input
         private static float PLUNGER_MIN_X;
         private static float PLUNGER_MAX_Y;
         private static float PLUNGER_MIN_Y;
-        public Text text;
 
         private void Awake()
         {
@@ -47,7 +46,6 @@ namespace Assets.Scripts.Input
 
         public void OnPaddleUp(Vector2 inputValue)
         {
-            text.text = "Up";
             if (inputValue.x <= screen_w / 2)
             {
                 OnPaddleLeftDown?.Invoke();
@@ -61,7 +59,6 @@ namespace Assets.Scripts.Input
 
         public void OnPaddleDown(Vector2 inputValue)
         {
-            text.text = "Down";
             var point = inputValue;
             if (point.x <= screen_w / 2)
             {

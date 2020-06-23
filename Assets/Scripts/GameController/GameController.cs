@@ -87,13 +87,6 @@ public class GameController : IGameController
         {
             _gpsController.CompleteAchievement(GPGSIds.achievement_achievement_1);
         }
-
-        bool leaderboardsAchievementCompleted = _achievementsController.CheckLeaderboardsAchievement();
-
-        if (leaderboardsAchievementCompleted)
-        {
-            _gpsController.CompleteAchievement(GPGSIds.achievement_achievement_2);
-        }
     }
 
     public void CompletedFirstGame()

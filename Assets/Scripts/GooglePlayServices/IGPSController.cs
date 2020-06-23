@@ -8,8 +8,6 @@ public interface IGPSController
     void ShowLeaderboards();
     void AddScoreToLeaderboard(long score);
 
-    void IsPlayerOnFirstPlace();
-
     Action LoginSuccess { get; set; }
     Action LoginFailure { get; set; }
     Action AchievementSuccess { get; set; }

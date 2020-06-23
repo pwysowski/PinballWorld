@@ -244,7 +244,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: /Users/pawelwysowski/Downloads/student02.keystore
+  AndroidKeystoreName: '{inproject}: Assets/Keystore/student02.keystore'
   AndroidKeyaliasName: student
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

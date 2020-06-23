@@ -17,7 +17,7 @@ public class FlipperController : MonoBehaviour
     [SerializeField]
     private FlipperType type;
 
-    private float speed = 4000;
+    private float speed = 2000;
 
     [SerializeField]
     private HingeJoint2D hingeJoint;
@@ -80,6 +80,7 @@ public class FlipperController : MonoBehaviour
 
     private void UnsubscribeFromEvent()
     {
+        PaddleDown();
         if (type == FlipperType.LEFT)
         {
             _input.OnPaddleLeftUp -= PaddleDown;

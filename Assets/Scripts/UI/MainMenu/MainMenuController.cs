@@ -18,6 +18,8 @@ public class MainMenuController : MonoBehaviour
     [SerializeField]
     private Button LeaderBoardsBtn;
     [SerializeField]
+    private Button AchievementsBtn;
+    [SerializeField]
     private Button ExitBtn;
     [SerializeField]
     private Button HudButton;
@@ -45,7 +47,6 @@ public class MainMenuController : MonoBehaviour
     private void StartGame()
     {
         _gameController.ChangeGameState(GameState.PRE_GAME);
-
     }
 
     private void HandleGameChange(GameState gameState){
@@ -90,17 +91,23 @@ public class MainMenuController : MonoBehaviour
     private void RemoveBtnListeners(){
         StartBtn.onClick.RemoveAllListeners();
         LeaderBoardsBtn.onClick.RemoveAllListeners();
+        AchievementsBtn.onClick.RemoveAllListeners();
         ExitBtn.onClick.RemoveAllListeners();
     }
 
     private void AddBtnListeners(){
         StartBtn.onClick.AddListener(StartGame);
         LeaderBoardsBtn.onClick.AddListener(ShowLeaderboards);
+        AchievementsBtn.onClick.AddListener(ShowAchievements);
         ExitBtn.onClick.AddListener(ExitGame);
     }
 
     private void ShowLeaderboards(){
+        _gameController.ShowLeaderboardsUI();
+    }
 
+    private void ShowAchievements(){
+        _gameController.ShowAchievementsUI();
     }
 
     private void ExitGame(){

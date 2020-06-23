@@ -39,26 +39,30 @@ namespace Assets.Scripts.Board
             initLevelPosition = levelParentTransform.position;
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             _gameController.OnGameStateChange += HandleChange;
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             _gameController.OnGameStateChange -= HandleChange;
         }
 
-        private void HandleChange(GameState gameState){
-            if(gameState == GameState.PRE_GAME){
+        private void HandleChange(GameState gameState)
+        {
+            if (gameState == GameState.PRE_GAME)
+            {
                 StartGame();
-            } else if(gameState == GameState.MENU){
+            }
+            else if (gameState == GameState.MENU)
+            {
                 EndGame();
             }
         }
 
         public void StartGame()
         {
-            _gameController.ChangeGameState(GameState.PRE_GAME);
-
             EnableNudge();
             EnableBall();
             InitializeBumpers();
@@ -66,7 +70,7 @@ namespace Assets.Scripts.Board
 
         private void InitializeBumpers()
         {
-            foreach(BumperController bumper in bumpersOnLevel)
+            foreach (BumperController bumper in bumpersOnLevel)
             {
                 if (bumper.Active)
                 {
@@ -87,15 +91,26 @@ namespace Assets.Scripts.Board
             DisableBumpers();
 
             var reward = _pointsService.CalculateReward();
-            _gameController.Money += (int)reward;
-            _gameController.ChangeGameState(GameState.PRE_GAME);
+            _gameController.AddMoney((int)reward);
+            _gameController.SaveGamepoints((int)reward);
+
+            if (_gameController.FirstGamePlayed == false)
+            {
+                _gameController.CompletedFirstGame();
+            }
 
             _pointsService.ResetPoints();
         }
 
+        public void RestartGame()
+        {
+            EndGame();
+            _gameController.ChangeGameState(GameState.PRE_GAME);
+        }
+
         private void DisableBumpers()
         {
-            foreach(var bumper in bumpersOnLevel)
+            foreach (var bumper in bumpersOnLevel)
             {
                 bumper.OnBump -= BumperPointHandle;
             }
@@ -125,7 +140,7 @@ namespace Assets.Scripts.Board
 
         private void Nudge()
         {
-            if(isNudging == false)
+            if (isNudging == false)
             {
                 isNudging = true;
                 levelParentTransform.DOShakePosition(0.1f, new Vector3(0.2f, 0.1f, 0.2f), 1, 5, false, true)

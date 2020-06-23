@@ -17,12 +17,15 @@ public class PlungerController : MonoBehaviour
     [SerializeField]
     private Rigidbody2D plungerRigidbody;
 
+    public UnityEngine.UI.Text text;
+
     [Inject]
-    public void Init(IGameController gameController, IInputService inputService)
+    public void Init(IGameController gameController, IInputService inputService, IGPSController gps)
     {
         _gameController = gameController;
         _inputService = inputService;
-
+        
+        gps.InitializeGPS();
     }
 
     private void OnEnable()
@@ -36,7 +39,6 @@ public class PlungerController : MonoBehaviour
 
     private void ToggleInput(GameState obj)
     {
-        Debug.Log(obj);
         if (obj == GameState.IN_GAME || obj == GameState.MENU)
         {
             DisablePlunger();
@@ -68,8 +70,8 @@ public class PlungerController : MonoBehaviour
             var diff = _initValue - value;
             force = diff.sqrMagnitude;
         }
-        plungerRigidbody.AddForce(Vector3.up * force * 1000);
-        _gameController.ChangeGameState(GameState.IN_GAME);
+        var finalForce = Mathf.Clamp(force, 0, 4000);
+        plungerRigidbody.AddForce(Vector3.up * finalForce);
     }
 
     private void InitPlunger(Vector3 value)

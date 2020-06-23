@@ -20,12 +20,21 @@ public class FloatAreaController : MonoBehaviour
 
     private float currentPoints;
 
+    private AudioSource audioSource;
+
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Ball"))
         {
             ballInArea = true;
             floatEffector.density = 200;
+
+            if(!audioSource.isPlaying)
+                audioSource.Play();
         }
     }
 
@@ -36,6 +45,7 @@ public class FloatAreaController : MonoBehaviour
             ballInArea = false;
             OnPointsGained?.Invoke(currentPoints);
             currentPoints = 0;
+            audioSource.Stop();
         }
     }
 

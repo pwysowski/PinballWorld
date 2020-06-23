@@ -9,6 +9,10 @@ public class BumperController : MonoBehaviour, IBumper
     private bool _active;
     [SerializeField]
     private float BumpValue;
+
+    [SerializeField]
+    private AudioSource audioSource;
+    
     public Action<float> OnBump { get; set; }
     public bool Active { 
         get
@@ -26,6 +30,7 @@ public class BumperController : MonoBehaviour, IBumper
         if (collision.gameObject.CompareTag("Ball"))
         {
             OnBump?.Invoke(BumpValue);
+            audioSource.Play();
         }
     }
 }

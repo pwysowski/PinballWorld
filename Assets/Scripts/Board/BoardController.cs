@@ -24,6 +24,9 @@ namespace Assets.Scripts.Board
         [SerializeField]
         private List<BumperController> bumpersOnLevel;
 
+        [SerializeField]
+        private FloatAreaController floatArea;
+
         private IGameController _gameController;
         private IInputService _input;
         private IPointsService _pointsService;
@@ -66,6 +69,12 @@ namespace Assets.Scripts.Board
             EnableNudge();
             EnableBall();
             InitializeBumpers();
+            InitializeFloatArea();
+        }
+
+        private void InitializeFloatArea()
+        {
+            floatArea.OnPointsGained += BumperPointHandle;
         }
 
         private void InitializeBumpers()

@@ -29,3 +29,9 @@ proszę wykorzystać plik .gitignore przeznaczony dla Unity;
 - Added GPGS sign in
 - Added leaderboards and achievements buttons
 - Updated Readme
+
+# How to build
+
+- Before building remember to add keystore file
+- Default keystore folder is Assets/Keystore
+- You will have to enter password for keystore

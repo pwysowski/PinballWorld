@@ -9,6 +9,10 @@ namespace Assets.Scripts.Saves
         private static string LAST_LOGIN = "Last_Login";
         private static string DAILY_COUNT = "Daily_Count";
         private static string FIRST_GAME = "First_Game";
+
+
+        private static string SCORE_ACHIEVEMENT_DONE = "SCORE_ACHIEVEMENT_DONE";
+        private static string MONEY_ACHIEVEMENT_DONE = "MONEY_ACHIEVEMENT_DONE";
         public void SaveMoney(int money)
         {
             PlayerPrefs.SetInt(MONEY_KEY, money);
@@ -52,6 +56,28 @@ namespace Assets.Scripts.Saves
         public bool LoadIsFirstGame()
         {
             int integerValue = PlayerPrefs.GetInt(FIRST_GAME, 0);
+            return integerValue == 1;
+        }
+
+        public void SaveScoreAchievementDone()
+        {
+            PlayerPrefs.SetInt(SCORE_ACHIEVEMENT_DONE, 1);
+        }
+
+        public bool LoadScoreAchievementDone()
+        {
+            int integerValue = PlayerPrefs.GetInt(SCORE_ACHIEVEMENT_DONE, 0);
+            return integerValue == 1;
+        }
+
+        public void SaveMoneyAchievementDone()
+        {
+            PlayerPrefs.SetInt(MONEY_ACHIEVEMENT_DONE, 1);
+        }
+
+        public bool LoadMoneyAchievementDone()
+        {
+            int integerValue = PlayerPrefs.GetInt(MONEY_ACHIEVEMENT_DONE, 0);
             return integerValue == 1;
         }
     }

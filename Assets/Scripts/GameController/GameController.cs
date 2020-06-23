@@ -17,6 +17,10 @@ public class GameController : IGameController
     private IAchievementsController _achievementsController;
     private ISaveController _saveController;
 
+    private bool moneyAchievementInactive;
+    private bool scoreAchievementInactive;
+
+
     public GameController(IGPSController gpsController, IAchievementsController achievementsController, ISaveController saveController)
     {
         _gpsController = gpsController;
@@ -46,6 +50,8 @@ public class GameController : IGameController
     private void LoadGame()
     {
         Money = _saveController.LoadMoney();
+        moneyAchievementInactive = _saveController.LoadMoneyAchievementDone();
+        scoreAchievementInactive = _saveController.LoadScoreAchievementDone();
 
         int dailyCount = _saveController.LoadDailyCount();
         DateTime lastLoginDate = _saveController.LoadLastLogin();
@@ -83,9 +89,11 @@ public class GameController : IGameController
         _gpsController.AddScoreToLeaderboard(score);
 
         bool scoreAchievementCompleted = _achievementsController.CheckGamePointsAchievement(points);
-        if (scoreAchievementCompleted)
+        if (scoreAchievementCompleted && !scoreAchievementInactive)
         {
+            scoreAchievementInactive = true;
             _gpsController.CompleteAchievement(GPGSIds.achievement_achievement_1);
+            _saveController.SaveScoreAchievementDone();
         }
     }
 
@@ -101,9 +109,11 @@ public class GameController : IGameController
         _saveController.SaveMoney(Money);
         bool moneyAchievementCompleted = _achievementsController.CheckMoneyAchievement(Money);
 
-        if (moneyAchievementCompleted)
+        if (moneyAchievementCompleted && !moneyAchievementInactive)
         {
+            moneyAchievementInactive = true;
             _gpsController.CompleteAchievement(GPGSIds.achievement_achievement_3);
+            _saveController.SaveMoneyAchievementDone();
         }
     }
 

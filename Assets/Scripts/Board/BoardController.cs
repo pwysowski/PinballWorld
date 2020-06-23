@@ -105,6 +105,7 @@ namespace Assets.Scripts.Board
 
             if (_gameController.FirstGamePlayed == false)
             {
+                _gameController.FirstGamePlayed = true;
                 _gameController.CompletedFirstGame();
             }
 

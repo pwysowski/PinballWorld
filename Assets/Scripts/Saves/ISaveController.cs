@@ -19,5 +19,10 @@ namespace Assets.Scripts.Saves
 
         void SaveIsFirstGame();
         bool LoadIsFirstGame();
+
+        void SaveScoreAchievementDone();
+        bool LoadScoreAchievementDone();
+        void SaveMoneyAchievementDone();
+        bool LoadMoneyAchievementDone();
     }
 }

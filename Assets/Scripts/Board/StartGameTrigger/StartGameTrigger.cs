@@ -16,6 +16,11 @@ namespace Assets.Scripts.Board
     private string BallTag = "Ball";
     private bool sentry = false;
     private IGameController _gameController;
+    private Collider2D collider;
+
+    private void Awake(){
+        collider = GetComponent<Collider2D>();
+    }
 
     [Inject]
     public void Init(IGameController gameController)
@@ -34,6 +39,7 @@ namespace Assets.Scripts.Board
     private void HandleChange(GameState gameState){
         if(gameState == GameState.PRE_GAME){
             sentry = false;
+            collider.isTrigger = true;
         }
     }
 
@@ -43,6 +49,7 @@ namespace Assets.Scripts.Board
         {
             _gameController.ChangeGameState(GameState.IN_GAME);
             sentry = true;
+            collider.isTrigger = false;
         }
     }
     }

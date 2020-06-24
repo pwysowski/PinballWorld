@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Assets.Scripts.Board
@@ -26,6 +27,8 @@ namespace Assets.Scripts.Board
 
         [SerializeField]
         private FloatAreaController floatArea;
+        [SerializeField]
+        private Text scoreTxt;
 
         private IGameController _gameController;
         private IInputService _input;
@@ -70,6 +73,8 @@ namespace Assets.Scripts.Board
             EnableBall();
             InitializeBumpers();
             InitializeFloatArea();
+            
+            scoreTxt.text = "SCORE: " + _pointsService.GetPoints();
         }
 
         private void InitializeFloatArea()
@@ -91,6 +96,7 @@ namespace Assets.Scripts.Board
         private void BumperPointHandle(float value)
         {
             _pointsService.AddPoints(value);
+            scoreTxt.text = "SCORE: " + _pointsService.GetPoints();
         }
 
         public void EndGame()

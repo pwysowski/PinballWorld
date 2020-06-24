@@ -70,7 +70,7 @@ public class PlungerController : MonoBehaviour
             var diff = _initValue - value;
             force = diff.sqrMagnitude;
         }
-        var finalForce = Mathf.Clamp(force, 0, 4000);
+        var finalForce = Mathf.Clamp(force, 0, 300);
         plungerRigidbody.AddForce(Vector3.up * finalForce);
     }
 

@@ -12,6 +12,8 @@ public class FloatAreaController : MonoBehaviour
 
     [SerializeField]
     private float pointsPerSecond;
+    [SerializeField]
+    private float density;
 
     public Action<float> OnPointsGained { get; set; }
 
@@ -31,7 +33,7 @@ public class FloatAreaController : MonoBehaviour
         if (collider.gameObject.CompareTag("Ball"))
         {
             ballInArea = true;
-            floatEffector.density = 200;
+            floatEffector.density = density;
 
             if(!audioSource.isPlaying)
                 audioSource.Play();

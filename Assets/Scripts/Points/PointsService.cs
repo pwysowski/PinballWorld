@@ -10,6 +10,10 @@ public class PointsService : IPointsService
         Points += value;
     }
 
+    public float GetPoints(){
+        return Points;
+    }
+
     public float CalculateReward()
     {
         return Points * 0.3f;

@@ -11,6 +11,7 @@ public class CameraMovement : MonoBehaviour
     private IInputService _input;
     private IGameController _gameController;
     private Camera _camera;
+    private bool isZooming = false;
 
     [Inject]
     public void Init(IInputService inputService, IGameController gameController)
@@ -64,11 +65,16 @@ public class CameraMovement : MonoBehaviour
 
     private void Pan(Vector3 obj)
     {
-        _camera.transform.position += obj;
+        if(!isZooming)
+            _camera.transform.position += obj;
     }
 
     private void Zoom(float inc)
     {
-        _camera.orthographicSize = Mathf.Clamp((_camera.orthographicSize - (inc*0.5f)), 1, 8);
+        if(!isZooming)
+            isZooming = true;
+        
+        _camera.orthographicSize = Mathf.Clamp((_camera.orthographicSize - (inc*0.05f)), 1, 10);
+        isZooming = false;
     }
 }

@@ -23,6 +23,13 @@ public class MainMenuController : MonoBehaviour
     private Button ExitBtn;
     [SerializeField]
     private Button HudButton;
+    [SerializeField]
+    private Button AuthorBtn;
+
+    [SerializeField]
+    private GameObject AuthorUI;
+    [SerializeField]
+    private Text MoneyText;
 
 
 
@@ -31,12 +38,14 @@ public class MainMenuController : MonoBehaviour
     public void Init(IGameController gameController)
     {
         _gameController = gameController;
-        ShowMenu();
+        _gameController.OnGameStateChange += HandleGameChange;
     }
 
     private void OnEnable()
     {
-        _gameController.OnGameStateChange += HandleGameChange;
+        if(_gameController.CurrentState == GameState.MENU){
+            ShowMenu();
+        }
     }
     private void OnDisable()
     {
@@ -62,6 +71,7 @@ public class MainMenuController : MonoBehaviour
     private void ShowHud(){
         HudContainer.SetActive(true);
         HudButton.onClick.AddListener(PauseGame);
+        
     }
 
     private void HideHud(){
@@ -74,6 +84,7 @@ public class MainMenuController : MonoBehaviour
     }
 
     private void ShowMenu(){
+        MoneyText.text = "Money: "+_gameController.Money;
         MenuContainer.SetActive(true);
         InitBtns();
     }
@@ -100,6 +111,11 @@ public class MainMenuController : MonoBehaviour
         LeaderBoardsBtn.onClick.AddListener(ShowLeaderboards);
         AchievementsBtn.onClick.AddListener(ShowAchievements);
         ExitBtn.onClick.AddListener(ExitGame);
+        AuthorBtn.onClick.AddListener(ShowAuthors);
+    }
+
+    private void ShowAuthors() {
+        AuthorUI.SetActive(true);
     }
 
     private void ShowLeaderboards(){

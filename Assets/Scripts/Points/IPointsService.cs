@@ -6,5 +6,6 @@ public interface IPointsService
 {
     void ResetPoints();
     void AddPoints(float value);
+    float GetPoints();
     float CalculateReward();
 }

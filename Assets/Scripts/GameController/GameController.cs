@@ -27,18 +27,24 @@ public class GameController : IGameController
         _achievementsController = achievementsController;
         _saveController = saveController;
 
+        Debug.Log("Game controller");
         Init();
+
     }
 
     public void ChangeGameState(GameState gameState)
     {
+        CurrentState = gameState;
         OnGameStateChange?.Invoke(gameState);
     }
 
     public void Init()
     {
-        ChangeGameState(GameState.MENU);
         _gpsController.LoginSuccess += ProceedToLoading;
+
+        #if UNITY_EDITOR
+            ProceedToLoading();
+        #endif
     }
 
     private void ProceedToLoading()
@@ -71,6 +77,8 @@ public class GameController : IGameController
         }
         _saveController.SaveLastLogin(DateTime.Now);
         FirstGamePlayed = _saveController.LoadIsFirstGame();
+
+        ChangeGameState(GameState.MENU);
     }
 
     public void ShowAchievementsUI()

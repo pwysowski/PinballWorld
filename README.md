@@ -29,7 +29,9 @@ proszę wykorzystać plik .gitignore przeznaczony dla Unity;
 - Added nudging
 - Added GPGS support
 - Added GPGS sign in
-- Added leaderboards and achievements buttons
+- Added leaderboards and achievements
+- Added final graphics
+- Added sounds
 - Updated Readme
 
 # How to build

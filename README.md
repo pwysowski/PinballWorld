@@ -1,6 +1,8 @@
 # PinballWorld
 Simple pinball game made as university assignment.
 
+Made with Unity 2019.3.14f1
+
 # Requirements (in Polish)
 
 - oczekiwany rodzaj gry to pinball, tzn. gra ma stanowić symulację fizyczną klasycznej gry arcade;
@@ -35,3 +37,16 @@ proszę wykorzystać plik .gitignore przeznaczony dla Unity;
 - Before building remember to add keystore file
 - Default keystore folder is Assets/Keystore
 - You will have to enter password for keystore
+
+# How to play
+
+- To shoot plunger you have to swipe down in right corner of your screen
+- Flippers will only move when the ball was shot with plunger
+- To move flippers yopu have to touch left/right sides of screen
+- To zoom in or zoom out use pinch gesture
+- You can move camera only in PRE-GAME phase (when the ball is on plunger)
+- To use nudging shake your phone
+
+- Bumpers will give you points when hit
+- Board bumpers will give you additional boost and even more points
+- Floating wave area will give you points on exit (calculated with time)
